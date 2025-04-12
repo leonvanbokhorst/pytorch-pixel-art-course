@@ -1,4 +1,10 @@
-# Day 1: Tensors - The Pixels and Palettes of PyTorch
+# Day 1: The Basic Runes - Understanding Tensors
+
+**Our Quest Begins!**
+
+Welcome, Pixel Paladin, to the very start of your adventure! Before you can enchant sprites or battle `gradient` dragons, you must master the fundamental magic of this land: **Tensors**. Think of them as the clay, the wood, the raw arcane energy from which all pixel creations are formed. Today, we gather our first supplies and learn to read the basic runes that represent everything from a single pixel's color to the layout of an entire sprite sheet. Master these, and the path to the Capstone Citadel opens before you!
+
+---
 
 **Topics:**
 

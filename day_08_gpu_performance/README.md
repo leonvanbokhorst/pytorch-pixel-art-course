@@ -1,4 +1,10 @@
-# Day 8: GPU Acceleration for Faster Pixel Art
+# Day 8: Channeling Raw Power - GPU Acceleration & Performance
+
+**Unlocking Greater Speed and Scale!**
+
+Our Pixel Paladin has mastered the core arts, but their ambitions grow! The Grand Enchantment ritual (Training Loop) takes time, limiting the scale of their creations. To forge truly legendary artifacts, we need **MORE POWER**! Today, we learn to tap into the raw energy of **GPUs (Graphics Processing Units)** – think of them as arcane accelerators or elemental forges designed for massive parallel computations. We'll discover how to transfer our runes (Tensors) and blueprints (`nn.Module`) to these powerful devices (`.to(device)`), drastically speeding up training and enabling us to work with larger, more complex pixel models and datasets than ever before. Feel the acceleration!
+
+---
 
 **Topics:**
 

@@ -1,4 +1,12 @@
-# Day 6: Training Pixel Art Models - The Loop!
+# Day 6: The Grand Enchantment - The Training Loop
+
+**Bringing It All Together**
+
+Our Pixel Paladin stands before the forge, blueprints (`nn.Module`) in hand, enchanted carts (`DataLoader`) brimming with resources, and the Enchanted Quill (`Autograd`) ready. It's time for the **Grand Enchantment: The Training Loop**! This is the core ritual where magic truly happens. We systematically feed our pixel resources to the model blueprint, assess its performance (calculate the loss - how far off is the magic?), use the Quill to determine how to improve (backpropagation), and make small adjustments (optimizer step). Repeat this cycle, round after round, and watch as our model learns, adapts, and becomes a powerful tool for pixel generation!
+
+---
+
+## 🎯 Objectives
 
 **Topics:**
 

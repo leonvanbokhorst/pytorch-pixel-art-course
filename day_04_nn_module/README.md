@@ -1,4 +1,12 @@
-# Day 4: `nn.Module` - Blueprints for Pixel Art Models
+# Day 4: Crafting Magical Blueprints - `nn.Module`
+
+**Structuring the Magic**
+
+Our Pixel Paladin's spellbook is growing thick! We have runes (Tensors), incantations (Operations), and the Enchanted Quill (Autograd) for learning. But chaos looms! How do we organize complex spells? How do we build reusable enchanted items? Enter the **Magical Blueprints of `nn.Module`**! Think of `nn.Module` as the standardized design for crafting powerful magic. It provides a container to hold learnable parameters (the focusing crystals, the power runes) and defines the forward pass – the exact sequence of incantations needed to cast the spell or activate the item. This is the key to building sophisticated, organized, and reusable pixel-generating models!
+
+---
+
+## 🎯 Objectives
 
 **Topics:**
 

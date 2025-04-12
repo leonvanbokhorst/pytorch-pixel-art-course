@@ -1,4 +1,12 @@
-# Day 3: Autograd - Learning Pixel Patterns Automatically
+# Day 3: The Enchanted Quill - Autograd
+
+**Discovering Automatic Magic**
+
+Our Pixel Paladin is getting proficient! You understand the runes (Tensors) and can perform basic incantations (Operations). But how do spells improve? How does our magic learn from its mistakes? Enter the **Enchanted Quill of Autograd**! This isn't just _doing_ magic; it's understanding the _flow_ of magic. Autograd automatically tracks every step of your calculations and figures out how changes in your inputs affect the outputs (calculating gradients). It's the engine of learning, the self-correcting charm that allows our creations to adapt and grow smarter!
+
+---
+
+## 🎯 Objectives
 
 **Topics:**
 

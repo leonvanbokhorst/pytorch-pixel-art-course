@@ -1,4 +1,12 @@
-# Day 2: Pixel Manipulation with Tensor Operations
+# Day 2: Manipulating the Arcane Glyphs - Tensor Operations
+
+**Learning the Incantations**
+
+Our Pixel Paladin has successfully identified the basic runes (Tensors)! But knowing the symbols isn't enough; true power lies in manipulating them. Today, we learn the fundamental incantations – the **Tensor Operations**. These are the actions, the verbs, the spells that allow us to reshape, combine, and transform the raw energy of tensors. Mastering these operations is like learning to wield a blacksmith's hammer or a wizard's staff; it's how we turn basic ingredients into useful tools and potent magic!
+
+---
+
+## 🎯 Objectives
 
 **Topics:**
 

@@ -1,4 +1,12 @@
-# Day 7: Evaluating and Improving Pixel Art Models
+# Day 7: Scrying Pools & Alchemical Tomes - Evaluation & Improvement
+
+**Assessing and Refining the Magic**
+
+Our Pixel Paladin has successfully performed the Grand Enchantment (Training Loop)! A magical artifact (our model) has been created. But the journey isn't over. Is the enchantment potent? Does it achieve the desired effect? It's time to **Evaluate** our work. We'll use Scrying Pools (evaluation metrics, validation datasets) to gaze critically at our model's performance on unseen data. Does it generalize well, or did it just memorize the training runes? Based on what the Scrying Pool reveals, we consult the Alchemical Tomes for techniques to **Improve** our magic – tweaking hyperparameters (like adjusting the focus of a magical lens), applying regularization (adding stabilizing runes), or employing validation loops to guide our refinement process. This iterative cycle of evaluation and improvement is how we forge truly powerful pixel magic!
+
+---
+
+## 🎯 Objectives
 
 **Topics:**
 

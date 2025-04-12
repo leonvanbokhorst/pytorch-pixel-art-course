@@ -1,4 +1,12 @@
-# Day 5: Loading Pixel Art with `Dataset` and `DataLoader`
+# Day 5: Surveying the Land & Gathering Resources - Datasets & DataLoaders
+
+**Fueling the Magic**
+
+Our Pixel Paladin can now build intricate magical blueprints (`nn.Module`)! But these powerful constructs need fuel – the raw pixel data from the world around us. Today, we learn how to find, organize, and efficiently transport these essential resources. We discover **Datasets**, which are like detailed maps or inventories pinpointing every pixel sprite, every tile, every piece of visual information we want to work with. Then, we meet the **DataLoaders**, our indispensable enchanted carts, which automatically and efficiently gather these resources from the locations specified by the Dataset map, delivering them in perfectly sized batches to our model workshop. Proper resource logistics are crucial for any grand magical undertaking!
+
+---
+
+## 🎯 Objectives
 
 **Topics:**
 

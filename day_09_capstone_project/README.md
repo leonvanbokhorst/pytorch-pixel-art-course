@@ -1,4 +1,16 @@
-# Day 9: Capstone Pixel Art Project Template
+# Day 9: The Capstone Citadel - Forging Your Legend!
+
+**The Final Challenge: Your Masterpiece**
+
+Our Pixel Paladin stands at the precipice, gazing up at the imposing, glittering **Capstone Citadel**. The journey has been long and arduous. You've deciphered the ancient Runes (Tensors), mastered the Incantations (Operations), wielded the Enchanted Quill (Autograd), drafted Magical Blueprints (`nn.Module`), gathered precious Resources (`Dataset`/`DataLoader`), toiled at the Grand Enchantment Forge (Training Loop), peered into the Scrying Pools (Evaluation), and channeled Raw Power (GPU).
+
+Now, the ultimate test awaits. The Citadel's gates swing open, revealing not a final boss, but a grand workshop – _your_ workshop. This is your chance to combine **all** the skills, all the magic learned on this quest. Choose your challenge, define your goal, and forge your own **Legendary Artifact**! Will you create a breathtaking pixel landscape generator? A sprite classifier of unparalleled accuracy? A tool to transform images into pixel art masterpieces?
+
+The path is yours to choose, Paladin. Take everything you have learned, unleash your creativity, overcome the final challenges (debugging!), and build something magnificent. Your capstone project is the culmination of your adventure, the proof of your mastery. Enter the Citadel, and forge your legend in the annals of Pixel Magic!
+
+---
+
+## 🎯 Objectives
 
 This directory contains a **template** for a capstone project designed to integrate the PyTorch concepts learned throughout Days 1-8, applied specifically to the **pixel art domain**. It's set up as a flexible starting point for various pixel art tasks, including multi-task learning.
 
