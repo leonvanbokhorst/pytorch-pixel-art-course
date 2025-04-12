@@ -1,127 +1,135 @@
-# Guide: 03 Tensor Arithmetic
+# Guide: 03 Pixel Math: Basic Arithmetic with Sprites!
 
-This guide covers basic element-wise arithmetic operations between PyTorch tensors, as demonstrated in `03_tensor_arithmetic.py`.
+Time for some pixel alchemy! ✨ We'll learn how to perform basic math operations (add, subtract, multiply, divide) on our sprite tensors. This guide demystifies the pixel math shown in `03_tensor_arithmetic.py`.
 
-**Core Concept:** PyTorch allows you to perform standard mathematical operations directly on tensors. For tensors of the same shape, these operations are typically performed _element-wise_. This means the operation is applied independently to each pair of corresponding elements from the input tensors.
+**Core Concept:** PyTorch lets you do math directly on tensors! When two tensors have the _same shape_, these operations usually happen _element-wise_. Think of it like overlaying two sprites perfectly and applying the math to the corresponding pixels at each `[row, column]` location (and for each color channel if it's RGB!).
 
-## Shape Requirement
+## The Shape Shackle!
 
-For the basic arithmetic operations shown here, the input tensors generally need to have the **exact same shape**. PyTorch applies the operation between the element at `[i, j]` in the first tensor and the element at `[i, j]` in the second tensor, producing a result at `[i, j]` in the output tensor.
+For these basic operations, your pixel tensors generally need to be **identically shaped**. If you have a 16x16 sprite, you can directly add it to another 16x16 sprite. Adding it to an 8x8 sprite directly? Not gonna work (yet!).
 
-_(There's a powerful exception called "broadcasting" where PyTorch _can_ handle operations on tensors with _different_ shapes under certain rules. We'll cover that in the next section!)_
+_(Pssst... there's a powerful spell called **Broadcasting** that *can* handle different shapes sometimes. We'll learn that next! But for now, assume shapes must match.)_
 
-## The Example Tensors
+## Our Experimental Sprites
 
-The script uses two 2x2 tensors:
+Let's create two simple 2x2 grayscale sprites (pretend they are `uint8` 0-255, but we'll use small ints for clarity):
 
 ```python
-# Script Snippet:
+# Potion Ingredients:
 import torch
 
-a = torch.tensor([[1, 2], [3, 4]])
-b = torch.tensor([[10, 20], [30, 40]])
+# Sprite 1: A simple gradient
+sprite1 = torch.tensor([[0, 50], [100, 150]])
+# Sprite 2: A constant value patch
+sprite2 = torch.tensor([[10, 10], [20, 20]])
 
-print(f"Tensor a:\n{a}")
-print(f"Tensor b:\n{b}")
+print(f"Sprite 1:\n{sprite1}")
+print(f"Sprite 2:\n{sprite2}")
 # Output:
-# Tensor a:
-# tensor([[1, 2],
-#         [3, 4]])
-# Tensor b:
-# tensor([[10, 20],
-#         [30, 40]])
+# Sprite 1:
+# tensor([[  0,  50],
+#         [100, 150]])
+# Sprite 2:
+# tensor([[10, 10],
+#         [20, 20]])
 ```
 
-## Element-wise Operations
+## Element-wise Pixel Magic
 
-PyTorch supports standard Python arithmetic operators and corresponding `torch` functions.
+Let's see what happens when we combine them!
 
-### 1. Addition (`+` or `torch.add`)
+### 1. Addition (`+` or `torch.add`): Brightness Boost / Blending
 
-Adds corresponding elements.
+Adds the values of corresponding pixels. Great for increasing brightness or blending sprites together.
 
 ```python
-# Script Snippet:
-addition = a + b
-# alternative: torch.add(a, b)
-print(f"\nAddition (a + b):\n{addition}")
+# Spell Snippet:
+brighter_sprite = sprite1 + sprite2
+# alternative: torch.add(sprite1, sprite2)
+print(f"\nAdded Sprites (Brightness Boost):\n{brighter_sprite}")
 # Output:
-# Addition (a + b):
-# tensor([[11, 22],
-#         [33, 44]])
+# Added Sprites (Brightness Boost):
+# tensor([[ 10,  60],
+#         [120, 170]])
 ```
 
-- (1+10=11, 2+20=22, 3+30=33, 4+40=44)\*
+- _(Pixel [0,0]: 0+10=10, Pixel [0,1]: 50+10=60, Pixel [1,0]: 100+20=120, Pixel [1,1]: 150+20=170)_
 
-### 2. Subtraction (`-` or `torch.sub`)
+### 2. Subtraction (`-` or `torch.sub`): Finding Differences
 
-Subtracts corresponding elements.
+Subtracts corresponding pixel values. Useful for seeing the difference between two sprites.
 
 ```python
-# Script Snippet:
-subtraction = b - a
-# alternative: torch.sub(b, a)
-print(f"\nSubtraction (b - a):\n{subtraction}")
+# Spell Snippet:
+difference_sprite = sprite1 - sprite2
+# alternative: torch.sub(sprite1, sprite2)
+print(f"\nSubtracted Sprites (Difference):\n{difference_sprite}")
 # Output:
-# Subtraction (b - a):
-# tensor([[ 9, 18],
-#         [27, 36]])
+# Subtracted Sprites (Difference):
+# tensor([[ -10,   40],
+#         [  80,  130]])
 ```
 
-- (10-1=9, 20-2=18, 30-3=27, 40-4=36)\*
+- _(Pixel [0,0]: 0-10=-10, Pixel [0,1]: 50-10=40, Pixel [1,0]: 100-20=80, Pixel [1,1]: 150-20=130)_
+- _(Note: If using `uint8`, negative results would wrap around or clamp!)_
 
-### 3. Element-wise Multiplication (`*` or `torch.mul`)
+### 3. Element-wise Multiplication (`*` or `torch.mul`): Masking / Scaling Contrast
 
-Multiplies corresponding elements. **This is NOT matrix multiplication!** (That uses `@` or `torch.matmul`). This is sometimes called the Hadamard product.
+Multiplies corresponding pixels. **Important: This is NOT matrix multiplication!** It's often used for applying masks (where one sprite has 0s and 1s) or scaling contrast.
 
 ```python
-# Script Snippet:
-multiplication = a * b
-# alternative: torch.mul(a, b)
-print(f"\nElement-wise Multiplication (a * b):\n{multiplication}")
+# Spell Snippet:
+scaled_sprite = sprite1 * sprite2
+# alternative: torch.mul(sprite1, sprite2)
+print(f"\nElement-wise Multiplied Sprites (Scaling/Masking):\n{scaled_sprite}")
 # Output:
-# Element-wise Multiplication (a * b):
-# tensor([[ 10,  40],
-#         [ 90, 160]])
+# Element-wise Multiplied Sprites (Scaling/Masking):
+# tensor([[    0,   500],
+#         [ 2000,  3000]])
 ```
 
-- (1*10=10, 2*20=40, 3*30=90, 4*40=160)\*
+- *(Pixel [0,0]: 0*10=0, Pixel [0,1]: 50*10=500, Pixel [1,0]: 100*20=2000, Pixel [1,1]: 150*20=3000)*
 
-### 4. Division (`/` or `torch.div`)
+### 4. Division (`/` or `torch.div`): Normalization / Ratio
 
-Divides corresponding elements.
+Divides corresponding pixels. Useful for normalization or finding ratios.
 
 ```python
-# Script Snippet:
-division = b / a
-# alternative: torch.div(b, a)
-print(f"\nDivision (b / a):\n{division}")
+# Spell Snippet:
+# Let's use slightly different values to avoid division by zero
+sprite_a = torch.tensor([[10, 20], [30, 40]])
+sprite_b = torch.tensor([[2, 5], [10, 8]])
+
+divided_sprite = sprite_a / sprite_b
+# alternative: torch.div(sprite_a, sprite_b)
+print(f"\nDivided Sprites (Ratio):\n{divided_sprite}")
 # Output:
-# Division (b / a):
-# tensor([[10., 10.],
-#         [10., 10.]])
+# Divided Sprites (Ratio):
+# tensor([[5.0000, 4.0000],
+#         [3.0000, 5.0000]])
 ```
 
-- (10/1=10, 20/2=10, 30/3=10, 40/4=10)\*
-- **Note:** Be mindful of division by zero if your tensors contain zeros. Also, division often results in float tensors (`torch.float32` or `torch.float64`), even if the inputs were integers, as seen here.
+- _(Pixel [0,0]: 10/2=5, Pixel [0,1]: 20/5=4, Pixel [1,0]: 30/10=3, Pixel [1,1]: 40/8=5)_
+- **Heads Up!** Watch out for dividing by zero! Also, division usually turns integer pixels into float pixels (`5.0000` instead of `5`), changing the `dtype`.
 
-### 5. Exponentiation (`**` or `torch.pow`)
+### 5. Exponentiation (`**` or `torch.pow`): Adjusting Gamma / Curves
 
-Raises elements of the first tensor to the power of the corresponding elements in the second tensor, or to a scalar power.
+Raises pixel values to a power. Can be used for gamma correction or adjusting contrast curves.
 
 ```python
-# Script Snippet:
-exponentiation = a**2 # Raise each element of 'a' to the power of 2
-# alternative: torch.pow(a, 2)
-print(f"\nExponentiation (a ** 2):\n{exponentiation}")
+# Spell Snippet:
+# Square the pixel values of sprite1
+squared_sprite = sprite1**2
+# alternative: torch.pow(sprite1, 2)
+print(f"\nSquared Sprite (Curve Adjustment):\n{squared_sprite}")
 # Output:
-# Exponentiation (a ** 2):
-# tensor([[ 1,  4],
-#         [ 9, 16]])
+# Squared Sprite (Curve Adjustment):
+# tensor([[    0,  2500],
+#         [10000, 22500]])
 ```
 
-- (1^2=1, 2^2=4, 3^2=9, 4^2=16)\*
+- _(Pixel [0,0]: 0^2=0, Pixel [0,1]: 50^2=2500, Pixel [1,0]: 100^2=10000, Pixel [1,1]: 150^2=22500)_
 
 ## Summary
 
-Performing basic element-wise arithmetic in PyTorch is intuitive, using standard Python operators (`+`, `-`, `*`, `/`, `**`) or equivalent `torch` functions. The main requirement for these basic operations is that the tensors have compatible shapes (usually the same shape), and the operations are applied independently to corresponding elements. Remember the distinction between element-wise multiplication (`*`) and matrix multiplication (`@`).
+You can use standard math symbols (`+`, `-`, `*`, `/`, `**`) to perform element-wise operations on identically shaped sprite tensors. This is fantastic for blending, adjusting brightness/contrast, masking, finding differences, and more! Just make sure the shapes match (for now 😉) and be aware of how operations like division might change the `dtype`. Remember `*` is element-wise, not matrix multiplication!
