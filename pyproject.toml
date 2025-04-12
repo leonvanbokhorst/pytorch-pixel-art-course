@@ -1,0 +1,30 @@
+[project]
+name = "pytorch-course-base"
+version = "0.1.0"
+description = "Base repository for the PyTorch course."
+requires-python = ">=3.8"
+dependencies = [
+    "torch",
+    "numpy",
+    "torchvision",
+    "matplotlib",
+    "tensorboard",
+    # Add other dependencies here as needed
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = [
+    "day_01_intro_tensors",
+    "day_02_tensor_ops",
+    "day_03_autograd",
+    "day_04_nn_module",
+    "day_05_datasets_dataloaders",
+    "day_06_training_loop",
+    "day_07_evaluation_improvement",
+    "day_08_gpu_performance",
+    "day_09_capstone_project"
+] 
