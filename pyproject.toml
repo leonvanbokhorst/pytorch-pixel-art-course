@@ -1,7 +1,7 @@
 [project]
-name = "pytorch-course-base"
-version = "0.1.0"
-description = "Base repository for the PyTorch course."
+name = "pytorch-pixel-art-course"
+version = "1.1.1"
+description = "Repository for the PyTorch Pixel Art Course."
 requires-python = ">=3.8"
 dependencies = [
     "torch",
@@ -9,6 +9,7 @@ dependencies = [
     "torchvision",
     "matplotlib",
     "tensorboard",
+    "rich",
     # Add other dependencies here as needed
 ]
 

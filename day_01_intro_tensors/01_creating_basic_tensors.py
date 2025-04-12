@@ -1,45 +1,55 @@
 import torch
+import os
 
-print("--- Pixel Art Tensor Examples ---")
+# Create tensors
 
-# Scalar: Representing a single grayscale pixel value (0-255)
-# Use torch.uint8 for byte representation commonly used for images
+# Scalar
 grayscale_pixel = torch.tensor(128, dtype=torch.uint8)
-print(f"Grayscale Pixel Value (Scalar): {grayscale_pixel}")
-print(
-    f"Shape: {grayscale_pixel.shape}, Dimensions: {grayscale_pixel.ndim}, Dtype: {grayscale_pixel.dtype}\n"
-)
 
-# Vector: Representing an RGB color [R, G, B]
-# Use torch.uint8 for 0-255 color values
-rgb_color = torch.tensor([255, 0, 255], dtype=torch.uint8)  # Magenta
-print(f"RGB Color (Vector): {rgb_color}")
-print(
-    f"Shape: {rgb_color.shape}, Dimensions: {rgb_color.ndim}, Dtype: {rgb_color.dtype}\n"
-)
+# Vector
+rgb_color = torch.tensor([255, 0, 255], dtype=torch.uint8)
 
-# Matrix: Representing a small 2x2 grayscale image
-# Values could be 0-255 (uint8) or 0.0-1.0 (float32, more common for models)
-# Let's use uint8 for simplicity here.
-small_grayscale_image = torch.tensor(
-    [[0, 255], [255, 0]],  # Top row: Black, White  # Bottom row: White, Black
-    dtype=torch.uint8,
-)
-print(f"Small 2x2 Grayscale Image (Matrix):\n{small_grayscale_image}")
-print(
-    f"Shape: {small_grayscale_image.shape}, Dimensions: {small_grayscale_image.ndim}, Dtype: {small_grayscale_image.dtype}"
-)
+# Matrix
+small_grayscale_image = torch.tensor([[0, 255], [255, 0]], dtype=torch.uint8)
 
-# Example of a small RGB image (3D Tensor)
-# Shape: [Height, Width, Channels]
-small_rgb_image = torch.tensor(
+# 3D Matrix
+rgb_color_cube = torch.tensor(
     [
-        [[255, 0, 0], [0, 255, 0]],  # Row 1: Red, Green
-        [[0, 0, 255], [255, 255, 0]],  # Row 2: Blue, Yellow
+        [[255, 0, 0], [0, 255, 0], [0, 0, 255]],
+        [[255, 255, 0], [0, 255, 255], [255, 0, 255]],
+        [[128, 128, 128], [128, 128, 128], [128, 128, 128]],
     ],
     dtype=torch.uint8,
 )
-print(f"\nSmall 2x2 RGB Image (3D Tensor):\n{small_rgb_image}")
-print(
-    f"Shape: {small_rgb_image.shape}, Dimensions: {small_rgb_image.ndim}, Dtype: {small_rgb_image.dtype}"
+
+
+def print_tensor_properties(name, description, tensor):
+    print(
+        f"{name}\n{description}\n\n"
+        f"Shape: \t\t{tensor.shape}\n"
+        f"Dimensions: \t{tensor.ndim}\n"
+        f"Dtype: \t\t{tensor.dtype}\n"
+        f"\n{tensor}\n"
+    )
+    print("-" * 100)
+
+
+# Print tensor properties
+# clear the console
+os.system("cls" if os.name == "nt" else "clear")
+
+print_tensor_properties(
+    "SCALAR", "Representing a single grayscale pixel value (0-255)", grayscale_pixel
+)
+
+print_tensor_properties(
+    "VECTOR", "Representing an RGB color [R, G, B] (0-255)", rgb_color
+)
+
+print_tensor_properties(
+    "MATRIX", "Representing a small 2x2 grayscale image (0-255)", small_grayscale_image
+)
+
+print_tensor_properties(
+    "3D MATRIX", "Representing a 3x3x3 RGB color cube", rgb_color_cube
 )
