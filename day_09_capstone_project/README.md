@@ -1,53 +1,59 @@
-# Day 9: Capstone Project - Multi-Task Learning Template
+# Day 9: Capstone Pixel Art Project Template
 
-This directory contains a **template** for a capstone project designed to integrate many of the concepts learned throughout the PyTorch Fundamentals course (Days 1-8). It's set up for multi-task learning but can be adapted for single tasks as well.
+This directory contains a **template** for a capstone project designed to integrate the PyTorch concepts learned throughout Days 1-8, applied specifically to the **pixel art domain**. It's set up as a flexible starting point for various pixel art tasks, including multi-task learning.
 
 ## Project Overview
 
-The goal of this project (`capstone_multitask.py`) is to provide a reusable structure for training a neural network on one or more tasks simultaneously using the same input data. The default example demonstrates:
+The goal of this project template (`capstone_multitask.py`) is to provide a reusable structure for training a neural network on pixel art data. The default structure (which you **must adapt**) suggests a potential multi-task scenario, but can easily be simplified to a single task. For example, you could adapt this to:
 
-1. **Regression:** Predict a continuous value based on the input.
-2. **Binary Classification:** Predict a class label (0 or 1) based on the input.
+1.  **Sprite Classification:** Train a model to recognize different types of pixel art sprites (e.g., characters, items, tiles).
+2.  **Pixel Art Generation:** Build a simple generator (perhaps conditional) to create novel pixel sprites.
+3.  **Multi-Task Learning:** Train a model to perform multiple tasks simultaneously, e.g.:
+    - Classify a sprite's category **AND** predict its average color (regression).
+    - Generate a sprite **AND** ensure it matches a certain style.
 
-This showcases **multi-task learning**, where a model leverages shared representations (learned in the model's "body") to perform well on multiple related tasks. You can easily adapt it to focus on a single task by removing the components related to the second task.
+The template demonstrates how a shared model body (potentially using convolutional layers learned conceptually earlier) can learn features useful for one or more pixel-related tasks.
 
 ## Adaptability
 
-This script is designed as a **template**. To use it for your own domain or problem, you will primarily need to modify the sections marked with `*** ADAPT THIS ... ***` comments in the `capstone_multitask.py` file:
+This script is a **template**! To make it your own pixel art project, you **must** modify the sections marked with `*** ADAPT THIS ... ***` comments in the `capstone_multitask.py` file:
 
-1. **Configuration:** Adjust parameters like `INPUT_DIM`, `HIDDEN_DIM`, `NUM_CLASSES`, `LEARNING_RATE`, `NUM_EPOCHS`, etc., at the top of the script.
-2. **`MultiTaskDataset`:**
-    - **Crucially:** Modify the `__init__` method to load _your_ specific data (e.g., from CSV files, image folders) instead of generating synthetic data.
-    - Ensure the `self.features` tensor has the correct shape based on your input.
-    - Define how your specific target(s) (`self.target_regression`, `self.target_classification`) are loaded or calculated.
-    - _If doing a single task_, remove the unused target tensor and references to it.
-3. **`MultiTaskNet`:**
-    - Adjust the `input_dim`, `hidden_dim`, and `num_classes` in the `__init__` method to match your data.
-    - Modify the architecture (number of layers, layer sizes, activation functions) within the shared body or the task-specific heads as needed for your problem's complexity.
-    - _If doing a single task_, remove the unused head (e.g., `self.regression_head`) and its usage in the `forward` method.
-4. **Loss Functions & Weights:**
-    - In the main execution block (`if __name__ == "__main__":`), select appropriate loss functions (`regression_criterion`, `classification_criterion`) for your task(s). PyTorch offers many options (e.g., `nn.CrossEntropyLoss` for multi-class classification).
-    - Adjust the `loss_weights` tuple to control the influence of each task's loss on the final combined loss used for training.
-5. **Evaluation (`evaluate_model` function):**
-    - Keep the loss calculations if using the same criteria.
-    - **Crucially:** Add or modify the calculation of relevant evaluation _metrics_ for your specific tasks (e.g., R-squared, F1-score, precision, recall). The current example only calculates binary accuracy.
-    - Update the print statements to report your chosen metrics.
-6. **Model Saving:**
-    - In the main loop, change the condition for saving the best model to use the most relevant validation metric for your primary task (e.g., `val_reg_loss` if focusing on regression).
+1.  **Configuration:** Adjust parameters like image dimensions (`IMG_HEIGHT`, `IMG_WIDTH`, `CHANNELS`), number of classes (`NUM_CLASSES`), learning rate, epochs, etc.
+2.  **`PixelArtDataset` (or your chosen name):**
+    - **Crucially:** Modify the `__init__` method to load _your_ pixel art dataset (e.g., from folders of PNGs, sprite sheets) instead of the placeholder synthetic data.
+    - Ensure `__getitem__` loads and returns a sprite tensor (potentially with transforms) and its corresponding target(s) (e.g., class label, target color vector, or even the sprite itself for generation tasks like autoencoders).
+    - _If doing a single task_, remove references to the unused target data.
+3.  **`PixelArtModel` (or your chosen name):**
+    - Adjust the architecture in `__init__`. For pixel art, consider using `nn.Conv2d` layers in the shared body to process spatial information effectively. Define appropriate input/output dimensions.
+    - Define task-specific heads if doing multi-task learning (e.g., a classification head, a color prediction head).
+    - Modify the `forward` method to pass data through the body and then the relevant head(s).
+    - _If doing a single task_, simplify the model to have only the necessary components.
+4.  **Loss Functions & Weights:**
+    - In the main execution block, choose appropriate loss functions for your pixel task(s). Examples:
+      - Classification: `nn.CrossEntropyLoss`
+      - Generation/Regression (pixel values/colors): `nn.MSELoss`, `nn.L1Loss`
+    - If multi-tasking, adjust `loss_weights` to balance the contribution of each task.
+5.  **Evaluation (`evaluate_model` function):**
+    - Keep loss calculations relevant to your chosen criteria.
+    - **Crucially:** Add or modify the calculation of relevant evaluation _metrics_ for your pixel art tasks (e.g., classification accuracy, PSNR for generation, Mean Absolute Error for color prediction). **Visual inspection of generated outputs is often essential for generation tasks!**
+    - Update print statements to report your chosen pixel art metrics.
+6.  **Model Saving:**
+    - In the main loop, change the condition for saving the best model to use the most relevant validation metric for your primary pixel task (e.g., `val_accuracy` or `val_generation_loss`).
 
-## Components (Default Example)
+## Components (Needs Adaptation)
 
-- **Synthetic Data (`MultiTaskDataset`):** Generates random inputs and derives regression/classification targets.
-- **Multi-Task Model (`MultiTaskNet`):** An `nn.Module` with a shared body and two separate heads (regression and classification).
-- **Combined Loss:** Uses `nn.MSELoss` and `nn.BCEWithLogitsLoss`, combined with weights.
-- **Training Loop (`train_epoch`):** Standard loop performing backpropagation on the combined loss.
-- **Evaluation Loop (`evaluate_model`):** Calculates MSE and binary accuracy on validation data.
+- **Dataset (`PixelArtDataset`):** Needs modification to load _your_ sprites and targets.
+- **Model (`PixelArtModel`):** Needs architecture adjustments for your specific pixel task (consider `nn.Conv2d`).
+- **Loss Function(s):** Choose based on your task (classification, generation, etc.).
+- **Training Loop (`train_epoch`):** Mostly standard, uses chosen loss.
+- **Evaluation Loop (`evaluate_model`):** Calculates loss and needs _your_ specific pixel art metrics added.
 
 ## How to Run (After Adapting)
 
-1. **Ensure Prerequisites:** Activate your Python virtual environment with PyTorch installed.
-2. **Navigate:** `cd` to the root of the `pytorch-course-base` project.
-3. **Execute:** Run the adapted script:
+1.  **Ensure Prerequisites:** Activate your virtual environment with PyTorch (and potentially `torchvision`, `matplotlib`) installed.
+2.  **Adapt the Code:** Modify `capstone_multitask.py` as described above for your specific pixel art project.
+3.  **Navigate:** `cd` to the root of the project.
+4.  **Execute:** Run your adapted script:
 
     ```bash
     python day_09_capstone_project/capstone_multitask.py

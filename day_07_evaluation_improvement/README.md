@@ -1,72 +1,52 @@
-# Day 7: Evaluation and Model Improvement
+# Day 7: Evaluating and Improving Pixel Art Models
 
 **Topics:**
 
-- Model Evaluation:
-  - Switching to evaluation mode (`model.eval()`)
-  - Using `torch.no_grad()` context.
-  - Evaluating on a validation/test set.
-- Performance Metrics: Calculating accuracy or other relevant metrics beyond loss.
-- Diagnosing Training Issues:
-  - Identifying underfitting vs. overfitting.
-  - Recognizing optimization problems (e.g., learning rate issues).
-  - Importance of checking data quality.
-- Tuning Hyperparameters: Experimenting with learning rate, batch size, etc.
-- Preventing Overfitting: Regularization techniques (brief mention), early stopping concept.
-- Saving and Loading Models: Using `torch.save` and `model.load_state_dict`.
+- Evaluating Pixel Model Performance:
+  - Switching to evaluation mode (`model.eval()`): Important for layers like Dropout/BatchNorm if used.
+  - Using `torch.no_grad()`: Disabling gradients for faster evaluation and no unwanted learning.
+  - Evaluating on a validation set of unseen pixel art.
+- Pixel Art Metrics: Assessing quality beyond just the loss.
+  - Classification: Accuracy (how many sprites correctly identified?).
+  - Generation: Validation loss (e.g., MSE). Visual inspection of generated sprites is crucial! Mention concepts like PSNR/SSIM if relevant.
+- Diagnosing Pixel Training Issues:
+  - Overfitting: Model generates/classifies training sprites perfectly but fails on new ones.
+  - Underfitting: Model struggles even on training sprites (blurry generations, low accuracy).
+  - Learning Rate Problems: Loss explodes or plateaus too quickly.
+  - Data Issues: Check if your pixel art dataset is clean and representative.
+- Tuning for Better Pixels: Experimenting with learning rate, model complexity, batch size.
+- Preventing Pixel Overfitting: Mention regularization techniques, early stopping (stopping training when validation performance degrades).
+- Saving and Loading Pixel Models: Using `torch.save` and `model.load_state_dict` to store and reuse trained generators/classifiers.
 
-**Focus:** Assessing model generalization, understanding common training problems and how to address them, and practical skills like saving models.
+**Focus:** Evaluating how well pixel art models generalize, identifying and fixing common training problems, and saving trained models for later pixel generation or classification.
 
 ## Key Resources
 
-- **PyTorch Official Tutorials - Save and Load the Model:** [https://pytorch.org/tutorials/beginner/basics/saveloadrun_tutorial.html](https://pytorch.org/tutorials/beginner/basics/saveloadrun_tutorial.html) (Covers saving/loading `state_dict`, model architecture, inference)
-- **`torch.no_grad` Documentation:** [https://pytorch.org/docs/stable/generated/torch.no_grad.html](https://pytorch.org/docs/stable/generated/torch.no_grad.html) (Essential for evaluation)
-- **`model.eval()` Documentation:** [https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.eval](https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.eval) (Setting the module to evaluation mode)
-- **Saving & Loading Models Guide:** [https://pytorch.org/tutorials/beginner/saving_loading_models.html](https://pytorch.org/tutorials/beginner/saving_loading_models.html) (More detailed guide on different saving approaches)
-- **TorchMetrics Library (Optional but recommended for metrics):** [https://torchmetrics.readthedocs.io/en/stable/](https://torchmetrics.readthedocs.io/en/stable/) (While not strictly core PyTorch, very useful for calculating accuracy, F1, etc.)
+- **PyTorch Official Tutorials - Save and Load the Model:** [https://pytorch.org/tutorials/beginner/basics/saveloadrun_tutorial.html](https://pytorch.org/tutorials/beginner/basics/saveloadrun_tutorial.html)
+- **`torch.no_grad` Documentation:** [https://pytorch.org/docs/stable/generated/torch.no_grad.html](https://pytorch.org/docs/stable/generated/torch.no_grad.html)
+- **`model.eval()` Documentation:** [https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.eval](https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.eval)
+- **Saving & Loading Models Guide:** [https://pytorch.org/tutorials/beginner/saving_loading_models.html](https://pytorch.org/tutorials/beginner/saving_loading_models.html)
+- **TorchMetrics Library (Optional):** [https://torchmetrics.readthedocs.io/en/stable/](https://torchmetrics.readthedocs.io/en/stable/) (Useful for standard metrics like accuracy)
 
-## Hands-On Examples
+## Hands-On Pixel Evaluation Examples
 
-- **Setting up for Evaluation:** ([`01_setup_for_evaluation.py`](./01_setup_for_evaluation.py))
-  - **Code Idea:** Assume you have a trained `model` from Day 6. Create a separate dummy validation dataset (`X_val`, `y_val`) and wrap it in a `Dataset` and `DataLoader` (`val_loader`). Keep the `criterion` (loss function) from training.
-  - **Purpose:** Prepare the necessary components for evaluating the model on unseen data.
-- **Implementing the Evaluation Loop:** ([`02_implementing_evaluation_loop.py`](./02_implementing_evaluation_loop.py))
-
-  - **Code Idea:**
-
-    ```python
-    model.eval() # Set model to evaluation mode
-    total_val_loss = 0.0
-    correct_predictions = 0
-    with torch.no_grad(): # Disable gradient calculations
-        for batch_X, batch_y in val_loader:
-            outputs = model(batch_X)
-            loss = criterion(outputs, batch_y) # Calculate loss
-            total_val_loss += loss.item() * batch_X.size(0)
-
-            # --- Add accuracy calculation (assuming classification) ---
-            # Example for logits output and integer labels:
-            # predicted_labels = outputs.argmax(dim=1)
-            # correct_predictions += (predicted_labels == batch_y).sum().item()
-            # ---------------------------------------------------------
-
-    avg_val_loss = total_val_loss / len(val_loader.dataset)
-    # accuracy = correct_predictions / len(val_loader.dataset) # If calculating accuracy
-    print(f"Validation Loss: {avg_val_loss:.4f}")
-    # print(f"Validation Accuracy: {accuracy:.4f}") # If calculating accuracy
-    ```
-
-  - **Purpose:** Demonstrate how to loop through validation data using `model.eval()` and `torch.no_grad()`, calculate validation loss, and optionally compute other metrics like accuracy. Highlight the key differences from the training loop (no optimizer steps, no backward pass).
-
-- **Calculating Accuracy (Classification Example):** ([`03_calculating_accuracy.py`](./03_calculating_accuracy.py))
-  - **Code Idea:** Integrate the accuracy calculation snippet (shown commented above) into the evaluation loop. This part depends on the model's output format (e.g., logits) and label format. Show how to get predicted labels (e.g., using `argmax`) and compare them to true labels.
-  - **Purpose:** Provide a concrete example of calculating a common performance metric beyond loss.
-- **Saving Model Parameters:** ([`04_saving_model_parameters.py`](./04_saving_model_parameters.py))
-  - **Code Idea:** After training (or evaluation), save the model's learned parameters: `torch.save(model.state_dict(), 'my_model_weights.pth')`.
-  - **Purpose:** Show the standard way to save the trained state of a model for later use.
-- **Loading Model Parameters:** ([`05_loading_model_parameters.py`](./05_loading_model_parameters.py))
-  - **Code Idea:**
-    1. Create a _new_ instance of the same model architecture: `new_model = SimpleNet(...)`.
-    2. Load the saved parameters: `new_model.load_state_dict(torch.load('my_model_weights.pth'))`.
-    3. (Optional) Set `new_model.eval()` and run a prediction to show it works.
-  - **Purpose:** Demonstrate how to load previously saved weights into a model instance, allowing reuse without retraining. Emphasize that the model architecture must match the saved state dict.
+- **Setting up for Pixel Evaluation:** ([`01_setup_for_evaluation.py`](./01_setup_for_evaluation.py))
+  - **Pixel Idea:** Assume a trained pixel model (generator or classifier). Create a validation `DataLoader` (`val_loader`) with a separate set of unseen sprites. Keep the appropriate `criterion` (loss function).
+  - **Purpose:** Prepare components to test the model on pixel data it hasn't seen during training.
+- **Implementing the Pixel Evaluation Loop:** ([`02_implementing_evaluation_loop.py`](./02_implementing_evaluation_loop.py))
+  - **Pixel Idea:** Implement the loop:
+    Set `model.eval()`. Use `with torch.no_grad():`. Iterate through `val_loader`. Perform forward pass (`outputs = model(batch_sprites)`). Calculate validation loss (`loss = criterion(outputs, batch_targets)`). Accumulate total validation loss.
+  - **Purpose:** Demonstrate the standard evaluation loop for pixel models, highlighting `model.eval()` and `torch.no_grad()`.
+- **Calculating Sprite Classification Accuracy:** ([`03_calculating_accuracy.py`](./03_calculating_accuracy.py))
+  - **Pixel Idea:** If doing classification, modify the evaluation loop to calculate accuracy: get predicted class labels (e.g., `outputs.argmax(dim=1)`), compare to true labels, count correct predictions, and calculate the overall accuracy on the validation set.
+  - **Purpose:** Provide a concrete example of calculating a performance metric for pixel classification.
+- **Saving Pixel Model Parameters:** ([`04_saving_model_parameters.py`](./04_saving_model_parameters.py))
+  - **Pixel Idea:** After training a pixel generator or classifier, save its learned weights: `torch.save(model.state_dict(), 'pixel_model_weights.pth')`.
+  - **Purpose:** Show how to save the trained state (the important part!) of your pixel model.
+- **Loading Pixel Model Parameters:** ([`05_loading_model_parameters.py`](./05_loading_model_parameters.py))
+  - **Pixel Idea:**
+    1. Define the _exact same_ pixel model architecture: `new_pixel_model = YourPixelModel(...)`.
+    2. Load the saved weights: `new_pixel_model.load_state_dict(torch.load('pixel_model_weights.pth'))`.
+    3. Set `new_pixel_model.eval()`.
+    4. Generate/classify some sample pixels using `new_pixel_model` to confirm it loaded correctly.
+  - **Purpose:** Demonstrate loading saved weights to reuse a trained pixel model without retraining.
