@@ -23,30 +23,48 @@ rgb_color_cube = torch.tensor(
 )
 
 
-def print_tensor_properties(name, description, tensor):
+def _print_tensor_properties(name: str, description: str, tensor: torch.Tensor):
+    """
+    Print the properties of a tensor.
+    """
+    separator = f"\n{'-' * 100}\n"
+    tensor_info = f"{name}\n{description}\n\n"
+    shape_info = f"Shape: \t\t{tensor.shape}\n"
+    dim_info = f"Dimensions: \t{tensor.ndim}\n"
+    dtype_info = f"Dtype: \t\t{tensor.dtype}\n"
+    tensor_representation = f"\n{tensor}"
+
     print(
-        f"\n{'-' * 100}\n"
-        f"{name}\n{description}\n\n"
-        f"Shape: \t\t{tensor.shape}\n"
-        f"Dimensions: \t{tensor.ndim}\n"
-        f"Dtype: \t\t{tensor.dtype}\n"
-        f"\n{tensor}"
+        f"{separator}"
+        f"{tensor_info}"
+        f"{shape_info}"
+        f"{dim_info}"
+        f"{dtype_info}"
+        f"{tensor_representation}"
     )
 
 # Print tensor properties
 
-print_tensor_properties(
-    "SCALAR", "Representing a single grayscale pixel value (0-255)", grayscale_pixel
+_print_tensor_properties(
+    "SCALAR", 
+    "Representing a single grayscale pixel value (0-255)", 
+    grayscale_pixel
 )
 
-print_tensor_properties(
-    "VECTOR", "Representing an RGB color [R, G, B] (0-255)", rgb_color
+_print_tensor_properties(
+    "VECTOR", 
+    "Representing an RGB color [R, G, B] (0-255)", 
+    rgb_color
 )
 
-print_tensor_properties(
-    "MATRIX", "Representing a small 2x2 grayscale image (0-255)", small_grayscale_image
+_print_tensor_properties(
+    "MATRIX", 
+    "Representing a small 2x2 grayscale image (0-255)", 
+    small_grayscale_image
 )
 
-print_tensor_properties(
-    "3D MATRIX", "Representing a 3x3x3 RGB color cube", rgb_color_cube
+_print_tensor_properties(
+    "3D MATRIX", 
+    "Representing a 3x3x3 RGB color cube (0-255)", 
+    rgb_color_cube
 )
