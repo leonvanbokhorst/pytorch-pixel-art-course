@@ -1,6 +1,7 @@
 import torch
 
 # Create tensors
+# Everything in PyTorch is a tensor. 
 
 # Scalar
 grayscale_pixel = torch.tensor(128, dtype=torch.uint8)
