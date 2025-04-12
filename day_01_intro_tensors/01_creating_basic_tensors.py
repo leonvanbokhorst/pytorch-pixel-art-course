@@ -1,5 +1,4 @@
 import torch
-import os
 
 # Create tensors
 
@@ -25,18 +24,15 @@ rgb_color_cube = torch.tensor(
 
 def print_tensor_properties(name, description, tensor):
     print(
+        f"\n{'-' * 100}\n"
         f"{name}\n{description}\n\n"
         f"Shape: \t\t{tensor.shape}\n"
         f"Dimensions: \t{tensor.ndim}\n"
         f"Dtype: \t\t{tensor.dtype}\n"
-        f"\n{tensor}\n"
+        f"\n{tensor}"
     )
-    print("-" * 100)
-
 
 # Print tensor properties
-# clear the console
-os.system("cls" if os.name == "nt" else "clear")
 
 print_tensor_properties(
     "SCALAR", "Representing a single grayscale pixel value (0-255)", grayscale_pixel
