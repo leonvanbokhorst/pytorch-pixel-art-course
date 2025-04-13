@@ -1,8 +1,9 @@
+import copy
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import Dataset, DataLoader
-import copy
+from torch.utils.data import DataLoader, Dataset
 
 
 # --- Re-define Components (or import) --- #

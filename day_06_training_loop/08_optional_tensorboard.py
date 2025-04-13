@@ -1,9 +1,10 @@
+import os
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader, Dataset
 from torch.utils.tensorboard import SummaryWriter  # Import SummaryWriter
-import os
 
 
 # --- Re-define Components (Regression Setup) --- #

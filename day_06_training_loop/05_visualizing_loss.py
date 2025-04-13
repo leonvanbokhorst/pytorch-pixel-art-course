@@ -1,8 +1,8 @@
+import matplotlib.pyplot as plt  # Import matplotlib
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import Dataset, DataLoader
-import matplotlib.pyplot as plt  # Import matplotlib
+from torch.utils.data import DataLoader, Dataset
 
 
 # --- Re-define Components (Regression Setup) --- #

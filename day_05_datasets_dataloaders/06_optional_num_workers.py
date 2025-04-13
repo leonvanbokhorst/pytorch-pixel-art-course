@@ -1,7 +1,8 @@
-import torch
-from torch.utils.data import Dataset, DataLoader
-import time
 import os  # To get cpu count
+import time
+
+import torch
+from torch.utils.data import DataLoader, Dataset
 
 
 # --- Re-define Custom Dataset (or import) --- #

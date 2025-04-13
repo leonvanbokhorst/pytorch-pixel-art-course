@@ -1,8 +1,8 @@
 import torch
-from torch.utils.data import Dataset
 
 # Import transforms (even if not used heavily here, good practice)
-import torchvision.transforms as transforms # type: ignore
+import torchvision.transforms as transforms  # type: ignore
+from torch.utils.data import Dataset
 
 # Note: torchvision is not a core dependency but often used for transforms.
 # We'll use a simple lambda here, but show the structure.

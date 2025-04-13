@@ -1,7 +1,7 @@
 import torch
 
 # Create tensors
-# Everything in PyTorch is a tensor. 
+# Everything in PyTorch is a tensor.
 
 # Scalar
 grayscale_pixel = torch.tensor(128, dtype=torch.uint8)
@@ -43,28 +43,21 @@ def _print_tensor_properties(name: str, description: str, tensor: torch.Tensor):
         f"{tensor_representation}"
     )
 
+
 # Print tensor properties
 
 _print_tensor_properties(
-    "SCALAR", 
-    "Representing a single grayscale pixel value (0-255)", 
-    grayscale_pixel
+    "SCALAR", "Representing a single grayscale pixel value (0-255)", grayscale_pixel
 )
 
 _print_tensor_properties(
-    "VECTOR", 
-    "Representing an RGB color [R, G, B] (0-255)", 
-    rgb_color
+    "VECTOR", "Representing an RGB color [R, G, B] (0-255)", rgb_color
 )
 
 _print_tensor_properties(
-    "MATRIX", 
-    "Representing a small 2x2 grayscale image (0-255)", 
-    small_grayscale_image
+    "MATRIX", "Representing a small 2x2 grayscale image (0-255)", small_grayscale_image
 )
 
 _print_tensor_properties(
-    "3D MATRIX", 
-    "Representing a 3x3x3 RGB color cube (0-255)", 
-    rgb_color_cube
+    "3D MATRIX", "Representing a 3x3x3 RGB color cube (0-255)", rgb_color_cube
 )

@@ -1,5 +1,5 @@
 import torch
-from torch.utils.data import Dataset, random_split, DataLoader
+from torch.utils.data import DataLoader, Dataset, random_split
 
 
 # --- Re-define a simple Dataset (or import) --- #

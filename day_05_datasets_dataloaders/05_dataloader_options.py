@@ -1,6 +1,7 @@
-import torch
-from torch.utils.data import Dataset, DataLoader
 import time  # To see shuffle effect changes over runs
+
+import torch
+from torch.utils.data import DataLoader, Dataset
 
 
 # --- Re-define Custom Dataset (or import) --- #
