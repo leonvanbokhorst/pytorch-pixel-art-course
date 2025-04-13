@@ -13,7 +13,7 @@
 - [x] Guide 02: Reshaping Tensors 🔄
 - [x] Guide 03: Tensor Arithmetic ➕
 - [x] Guide 04: Broadcasting 📡
-- [ ] Guide 05: Matrix Multiplication ✖️
+- [x] Guide 05: Matrix Multiplication ✖️
 - [ ] Guide 06: Aggregation Functions 📊
 - [ ] Guide 07: Optional - In-place Operations 🔄
 
@@ -72,6 +72,9 @@
 - **Value Normalization**: Clear understanding of working with different value ranges (0-1, 0-255)
 - **Broadcasting**: Strong understanding of tensor shape compatibility and domain-specific applications
 - **RGB Manipulation**: Excellent grasp of channel-wise operations and pattern creation
+- **Matrix Multiplication**: Strong understanding of shape compatibility and transformation operations
+- **Neural Network Layers**: Excellent intuition about emergent complexity in MLP networks
+- **Hidden Units**: Clear understanding of pattern detection and feature transformation
 
 ### Learning Style Observations
 
@@ -87,6 +90,8 @@
 - Good at understanding the practical applications of mathematical concepts
 - Shows good intuition for domain-specific requirements
 - Strong ability to identify efficient solutions
+- Excellent grasp of emergent complexity in neural networks
+- Strong intuition about pattern detection and feature learning
 
 ### Recommendations for Future Learning
 
@@ -102,7 +107,11 @@
 - Practice with different normalization techniques
 - Experiment with more complex broadcasting patterns
 - Try creating more advanced visual effects using broadcasting
+- Explore different neural network architectures
+- Experiment with layer depth and width
+- Practice with different activation functions
+- Try combining multiple layers for complex transformations
 
 ---
 
-_Last updated: 2025-04-13 12:14:08 CEST_
+_Last updated: 2025-04-13 12:39:41 CEST_
