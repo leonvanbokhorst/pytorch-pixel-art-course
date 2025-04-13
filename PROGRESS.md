@@ -64,9 +64,9 @@
 - **GPU Operations**: Good comprehension of CPU/GPU tensor conversions
 - **Tensor Operations**: Solid understanding of indexing, slicing, and boolean masks
 - **Pixel Data**: Good grasp of RGBA color representation and manipulation
-- **Reshaping Operations**: Excellent understanding of tensor reshaping rules and techniques
-- **Dimension Manipulation**: Strong grasp of the -1 wildcard and dimension calculations
-- **Special Cases**: Good understanding of prime number tensor limitations
+- **Reshaping Operations**: Excellent understanding of tensor reshaping rules and the -1 wildcard
+- **Prime Number Tensors**: Demonstrated clear understanding of reshaping limitations with prime numbers
+- **Factorable Tensors**: Strong grasp of multiple valid reshaping possibilities
 
 ### Learning Style Observations
 
@@ -76,7 +76,8 @@
 - Good at connecting theoretical knowledge to practical applications
 - Quick to understand and apply new concepts
 - Good at breaking down complex operations into simpler parts
-- Enjoys experimenting with different tensor shapes and configurations
+- Shows strong pattern recognition in mathematical concepts
+- Demonstrates curiosity about edge cases (like prime number tensors)
 
 ### Recommendations for Future Learning
 
@@ -86,9 +87,9 @@
 - Regular knowledge checks to reinforce learning
 - Explore more complex tensor operations
 - Practice with different types of image data
-- Experiment with different tensor shapes and dimensions
-- Try combining multiple operations (reshaping + arithmetic)
+- Experiment with more edge cases in tensor operations
+- Try combining multiple operations (e.g., indexing and reshaping)
 
 ---
 
-_Last updated: 2024-04-13_
+_Last updated: 2025-04-13 10:08:33 CEST_
