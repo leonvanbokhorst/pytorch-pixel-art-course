@@ -83,6 +83,6 @@ if __name__ == "__main__":
         invalid_idx = len(dataset)
         _ = dataset[invalid_idx]
     except IndexError as e:
-        print(f"\nSuccessfully caught error for invalid index {invalid_idx}: {e}") # type: ignore
+        print(f"\nSuccessfully caught error for invalid index {invalid_idx}: {e}")  # type: ignore
 
     print("\nThis file defines and demonstrates the SimpleTensorDataset class.")

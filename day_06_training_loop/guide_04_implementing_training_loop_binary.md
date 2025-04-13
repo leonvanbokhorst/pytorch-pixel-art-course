@@ -1,88 +1,81 @@
-# Guide: 04 Implementing the Binary Classification Training Loop
+# Guide: 04 The Sprite Classification Loop!
 
-This guide shows how to implement the training loop for a binary classification task, using the components (model, data, BCEWithLogitsLoss, optimizer) set up previously, as demonstrated in `04_implementing_training_loop_binary.py`.
+We have the ingredients prepped for classifying sprites (Model outputting 1 logit, Dataset with float labels, `BCEWithLogitsLoss`). Now, let's run the training loop and teach the model to tell players from enemies (or circles from squares!), based on `04_implementing_training_loop_binary.py`.
 
-**Core Concept:** The fundamental 5-step training loop (`zero_grad` -> `forward` -> `loss` -> `backward` -> `step`) remains the same regardless of the task (regression or classification). However, the specific loss function used and any additional monitoring metrics (like accuracy) will be task-specific.
+**Core Concept:** The 5-step training loop (`zero_grad` -> `forward` -> `loss` -> `backward` -> `step`) works exactly the same way! The main difference is _how_ we interpret the model's output and often, we add an extra step inside the loop to track **accuracy** (how many sprites did it classify correctly?).
 
-## Training Loop Structure (Recap)
-
-The loop iterates through epochs, and within each epoch, it iterates through batches from the `DataLoader`.
+## The Classification Loop Structure (Recap + Accuracy)
 
 ```python
 # Conceptual Structure:
 num_epochs = ...
-model = ...
-train_loader = ...
-criterion = nn.BCEWithLogitsLoss() # Key difference
+classifier_model = ...
+train_loader = ... # DataLoader yields (sprite_batch, label_batch)
+criterion = nn.BCEWithLogitsLoss() # Our binary classification judge
 optimizer = ...
+device = ...
+
+classifier_model.to(device)
 
 for epoch in range(num_epochs):
-    model.train()
-    for batch_X, batch_y in train_loader:
+    classifier_model.train() # Set to training mode
+    epoch_loss = 0.0
+    epoch_correct_predictions = 0
+
+    for sprite_batch, label_batch in train_loader:
+        # Move data to device
+        sprite_batch = sprite_batch.to(device)
+        label_batch = label_batch.to(device)
+
         # 1. Zero Gradients
         optimizer.zero_grad()
-        # 2. Forward Pass (Get Logits)
-        outputs = model(batch_X)
+
+        # 2. Forward Pass -> Get Raw Logits
+        logits = classifier_model(sprite_batch)
+
         # 3. Calculate Loss (Using BCEWithLogitsLoss)
-        loss = criterion(outputs, batch_y)
+        loss = criterion(logits, label_batch)
+
         # 4. Backward Pass
         loss.backward()
+
         # 5. Update Parameters
         optimizer.step()
-        # (Optional: Calculate metrics like accuracy)
-    # (Optional: Log epoch results)
+
+        # --- (Optional but Recommended) Calculate Accuracy --- #
+        # a) Convert logits to probabilities (0 to 1)
+        predicted_probs = torch.sigmoid(logits)
+        # b) Convert probabilities to predicted labels (0 or 1)
+        predicted_labels = (predicted_probs >= 0.5).float()
+        # c) Count how many predictions match the true labels
+        correct_in_batch = (predicted_labels == label_batch).sum().item()
+        epoch_correct_predictions += correct_in_batch
+        # ---------------------------------------------------- #
+
+        epoch_loss += loss.item()
+
+    # --- Epoch Finished --- #
+    avg_epoch_loss = epoch_loss / len(train_loader)
+    epoch_accuracy = epoch_correct_predictions / len(train_loader.dataset)
+    print(f"Epoch {epoch+1} Avg Loss: {avg_epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}")
+
 ```
 
-## Key Aspects for Binary Classification
+## Key Differences & Steps for Classification Loop
 
-1. **Forward Pass Output:** The `outputs = model(batch_X)` call yields the raw logits from the model (shape `[batch_size, 1]`).
-2. **Loss Calculation:** `loss = criterion(outputs, batch_y)` uses `nn.BCEWithLogitsLoss`, which correctly interprets the raw logits and the float `0.0`/`1.0` labels.
-3. **Accuracy Calculation (Common Addition):** While loss tells us how wrong the model is on average, accuracy tells us the percentage of samples classified correctly. Since `BCEWithLogitsLoss` works on logits, we need a few extra steps to calculate accuracy within the loop:
-    - **Convert Logits to Probabilities:** Apply the Sigmoid function to the raw logits: `predicted_probs = torch.sigmoid(outputs)`.
-    - **Convert Probabilities to Labels:** Threshold the probabilities at 0.5 to get the predicted class (0 or 1): `predicted_labels = (predicted_probs >= 0.5).float()`.
-    - **Compare and Count:** Compare the `predicted_labels` with the true `batch_y` and sum the number of correct predictions: `correct_in_batch = (predicted_labels == batch_y).sum().item()`.
-    - **Accumulate:** Keep track of the total correct predictions across batches within an epoch.
-    - **Calculate Epoch Accuracy:** After the epoch, divide the total correct count by the total number of samples in the dataset.
+1.  **Forward Pass Output (`logits`):** Remember, `classifier_model(sprite_batch)` returns the raw _logits_ (shape `[batch_size, 1]`), not probabilities.
+2.  **Loss Calculation:** `loss = criterion(logits, label_batch)` works perfectly because `nn.BCEWithLogitsLoss` _expects_ raw logits and float `0.0`/`1.0` labels.
+3.  **Accuracy Calculation (The Extra Bit):** Loss tells us the average error, but accuracy gives a more intuitive feel for performance (% correct). To get this from logits:
+    - **Logits to Probabilities:** Apply `torch.sigmoid(logits)`. This squeezes the raw scores into the [0, 1] probability range.
+    - **Probabilities to Labels:** Decide on a threshold (usually 0.5). If `predicted_probs >= 0.5`, predict class 1, otherwise predict class 0. The `.float()` converts the resulting True/False boolean into `1.0`/`0.0`.
+    - **Compare & Count:** Check how many `predicted_labels` match the `label_batch` using `(predicted_labels == label_batch)`. The `.sum().item()` counts the number of `True` matches in the batch.
+    - **Accumulate:** Add `correct_in_batch` to `epoch_correct_predictions`.
+    - **Calculate Epoch Accuracy:** After looping through all batches, divide `epoch_correct_predictions` by the total number of sprites in the training set (`len(train_loader.dataset)`).
 
-## Code Walkthrough
+## Training vs. Validation Accuracy
 
-The script implements the loop with accuracy calculation:
-
-```python
-# Script Snippet (Inside Epoch Loop):
-epoch_loss = 0.0
-epoch_correct = 0
-num_batches_processed = 0
-
-for batch_idx, (batch_X, batch_y) in enumerate(train_loader):
-    optimizer.zero_grad()
-    outputs = model(batch_X)        # Raw logits
-    loss = criterion(outputs, batch_y) # Loss calculation
-    loss.backward()
-    optimizer.step()
-
-    # --- Accuracy Calculation --- #
-    predicted_probs = torch.sigmoid(outputs)          # Logits -> Probs
-    predicted_labels = (predicted_probs >= 0.5).float() # Probs -> Labels (0/1)
-    correct_in_batch = (predicted_labels == batch_y).sum().item()
-    epoch_correct += correct_in_batch
-    # -------------------------- #
-
-    epoch_loss += loss.item()
-    num_batches_processed += 1
-
-# After inner loop (end of epoch)
-avg_epoch_loss = epoch_loss / num_batches_processed
-epoch_accuracy = epoch_correct / len(train_loader.dataset)
-print(
-    f"Epoch {epoch+1}/{num_epochs} completed. Avg Loss: {avg_epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}"
-)
-```
-
-## Note on Training vs. Validation Accuracy
-
-Calculating accuracy on the _training set_ within the loop is useful for monitoring progress. However, the primary measure of how well your model generalizes is its accuracy on a separate **validation set** (using `model.eval()` and `torch.no_grad()`), which we will cover in Day 7.
+It's good to track accuracy on the training set during the loop to see if the model is learning _something_. However, don't be fooled if training accuracy gets very high! The _real_ test is the accuracy on the **validation set** (using `model.eval()` and `torch.no_grad()`, see Day 7), as that shows if the model can classify sprites it hasn't seen before.
 
 ## Summary
 
-The training loop for binary classification follows the standard 5 steps (`zero_grad`, `forward`, `loss`, `backward`, `step`). The key differences from regression lie in using a model that outputs a single logit and employing `nn.BCEWithLogitsLoss` as the criterion. Accuracy calculation is often added for monitoring, requiring conversion of logits to probabilities (via Sigmoid) and then thresholding to get predicted class labels.
+The sprite classification training loop uses the same 5 core steps. The key differences are using `nn.BCEWithLogitsLoss` (which takes raw logits) and often adding steps _within_ the loop to calculate training accuracy by converting logits -> probabilities -> predicted labels and comparing with true labels.

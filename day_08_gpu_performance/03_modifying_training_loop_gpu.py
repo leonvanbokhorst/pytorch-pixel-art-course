@@ -1,8 +1,9 @@
+import time
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import Dataset, DataLoader
-import time
+from torch.utils.data import DataLoader, Dataset
 
 # --- 1. Define the Target Device --- #
 if torch.cuda.is_available():

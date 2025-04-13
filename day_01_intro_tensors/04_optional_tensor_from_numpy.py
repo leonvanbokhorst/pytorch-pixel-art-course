@@ -1,5 +1,5 @@
-import torch
 import numpy as np
+import torch
 
 # Create a NumPy array
 numpy_array = np.array([1.0, 2.0, 3.0])

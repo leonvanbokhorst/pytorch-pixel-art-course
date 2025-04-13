@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader, Dataset
 
 
 # --- Re-use Model Definition (e.g., from Day 4/6, adapted for classification) --- #

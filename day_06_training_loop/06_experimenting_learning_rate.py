@@ -1,8 +1,9 @@
+import copy  # To easily reset model weights
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import Dataset, DataLoader
-import copy  # To easily reset model weights
+from torch.utils.data import DataLoader, Dataset
 
 
 # --- Re-define Components (or import) --- #

@@ -1,9 +1,10 @@
+import os
+import time
+
 import torch
 import torch.nn as nn
-from torch.utils.data import Dataset, DataLoader
 import torch.optim as optim
-import time
-import os
+from torch.utils.data import DataLoader, Dataset
 from torch.utils.tensorboard import SummaryWriter
 
 # --- Device Setup --- #

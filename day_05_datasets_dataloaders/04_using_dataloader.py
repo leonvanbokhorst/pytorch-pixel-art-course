@@ -1,5 +1,5 @@
 import torch
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader, Dataset
 
 
 # --- Re-define Custom Dataset (or import from 01_creating_custom_dataset.py) --- #
@@ -47,7 +47,7 @@ print(f"\nDataset created. Length: {len(dataset)}")
 data_loader = DataLoader(dataset=dataset, batch_size=BATCH_SIZE, shuffle=False)
 print(f"\nDataLoader created.")
 print(f" - Batch size: {BATCH_SIZE}")
-print(' - Shuffle: False')
+print(" - Shuffle: False")
 
 # --- Iterate over the DataLoader --- #
 print("\nIterating through the DataLoader...")

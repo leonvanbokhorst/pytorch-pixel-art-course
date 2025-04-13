@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+run date "+%Y-%m-%d %H:%M:%S %Z" to get the current date and time
